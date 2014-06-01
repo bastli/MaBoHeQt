@@ -16,11 +16,16 @@ SOURCES += main.cpp\
         MaBoHeMain.cpp \
     Heater.cpp \
     HeaterCommand.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    HeaterResponse.cpp
 
 HEADERS  += MaBoHeMain.hpp \
     Heater.hpp \
     HeaterCommand.hpp \
-    qcustomplot.h
+    qcustomplot.h \
+    HeaterResponse.hpp
 
 FORMS    += MaBoHeMain.ui
+
+RESOURCES += \
+    images.qrc

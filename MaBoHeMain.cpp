@@ -18,6 +18,7 @@ MaBoHeMain::MaBoHeMain(QWidget *parent) :
     scanForDevices();
     heater_disconnected();
 
+    ui->graph->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->graph->addGraph();
 
     QVector<double> x(250), y(250);
@@ -77,7 +78,7 @@ void MaBoHeMain::heater_connected(const QSerialPort& port)
     ui->statusBar->showMessage(tr("connected to %1").arg(port.portName()));
     ui->connectButton->setText(tr("disconnect"));
 
-    ui->mainGuiLayout->setEnabled(true);
+    ui->statusBox->setEnabled(true);
 }
 ///////////////////////////////////////////////////////////////////////////////
 void MaBoHeMain::heater_disconnected()
@@ -85,11 +86,42 @@ void MaBoHeMain::heater_disconnected()
     ui->statusBar->showMessage(tr("disconnected"));
     ui->connectButton->setText(tr("connect"));
 
-    ui->mainGuiLayout->setEnabled(false);
+    ui->statusBox->setEnabled(false);
 }
 ///////////////////////////////////////////////////////////////////////////////
 void MaBoHeMain::serial_error(const QString& category, const QString& message)
 {
     QMessageBox::critical(this, tr("Error during %1").arg(category), message);
+}
+///////////////////////////////////////////////////////////////////////////////
+void MaBoHeMain::update_heater_value(const HeaterResponse& value)
+{
+    switch (value.type) {
+        case HeaterResponse::Status:
+            if (value.value > 0.5)
+                ui->powerValue->setText(tr("ON"));
+            else
+                ui->powerValue->setText(tr("OFF"));
+            break;
+
+    case HeaterResponse::TempSens1:
+        ui->sensor1Value->setText(tr("%1 %2").arg(value.value).arg(value.unit));
+        break;
+
+    case HeaterResponse::TempSens2:
+        ui->sensor2Value->setText(tr("%1 %2").arg(value.value).arg(value.unit));
+        break;
+
+    case HeaterResponse::TempHeatsink:
+        ui->heatsinkValue->setText(tr("%1 %2").arg(value.value).arg(value.unit));
+        break;
+
+    // TODO: add rest
+
+    default:
+        qDebug() << "received unknown HeaterResponse type" << value.type;
+        break;
+
+    }
 }
 ///////////////////////////////////////////////////////////////////////////////

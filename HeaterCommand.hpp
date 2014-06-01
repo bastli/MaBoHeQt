@@ -23,7 +23,7 @@ public:
 
     int response_length;
 
-    QByteArray getSerial();
+    const QByteArray getSerial() const;
 
     static HeaterCommand parseResponse(const QByteArray& data);
 };

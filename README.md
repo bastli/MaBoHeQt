@@ -8,5 +8,4 @@ Installation
 ------------
 
 1. Setup QT (>= 5)
-2. Open project in Qt Creator
-3. compile
+2. Open and compile project in Qt Creator or use qmake

@@ -32,6 +32,8 @@ public slots:
 
     void serial_error(const QString& category, const QString& message);
 
+    void update_heater_value(const HeaterResponse& value);
+
 private:
     Ui::MaBoHeMain *ui;
 

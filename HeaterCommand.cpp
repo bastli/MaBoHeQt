@@ -8,7 +8,7 @@ HeaterCommand::HeaterCommand(byte command, unsigned int response_length)
     memset(parameter, 0, sizeof(parameter));
 }
 ///////////////////////////////////////////////////////////////////////////////
-QByteArray HeaterCommand::getSerial()
+const QByteArray HeaterCommand::getSerial() const
 {
     QByteArray data;
 
